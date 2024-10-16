@@ -1,0 +1,14 @@
+<div class="d-flex align-items-center justify-content-center">
+  @if(userGithub$ | async; as userGithub) {
+  <div class="d-flex flex-column align-items-center gap-3">
+    <img [src]="userGithub.avatar_url" alt="" width="80" height="80" />
+    <p class="text-center fw-bold">
+      {{ userGithub.name }}
+    </p>
+  </div>
+  } @else {
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+  }
+</div>

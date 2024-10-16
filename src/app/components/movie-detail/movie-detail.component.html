@@ -1,0 +1,17 @@
+<div class="container p-5 pt-0">
+  <div class="border rounded-3 p-3">
+    @if (movie) {
+    <ul>
+      <li>Nombre: {{ movie.nombre }}</li>
+      <li>Fecha de estreno: {{ movie.fechaEstreno }}</li>
+      <li>Tipo: {{ movie.tipo }}</li>
+      <li>Protagonista: {{ movie.protagonista }}</li>
+      <li>Cantidad de publico: {{ movie.cantidadPublico }}</li>
+    </ul>
+    } @else {
+    <p class="text-center m-0">
+      No hay detalles para mostrar. Seleccione una pelicula
+    </p>
+    }
+  </div>
+</div>

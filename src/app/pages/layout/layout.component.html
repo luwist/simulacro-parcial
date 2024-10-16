@@ -1,0 +1,26 @@
+<div class="container">
+  <header
+    class="d-flex align-items-center justify-content-between py-3 mb-4 border-bottom"
+  >
+    <div class="d-flex align-items-center gap-3">
+      <img src="assets/logo.png" alt="" routerLink="/" />
+
+      <ul class="nav justify-content-center">
+        <li class="nav-item">
+          <a routerLink="/peliculas" class="nav-link">Peliculas</a>
+        </li>
+        <li class="nav-item">
+          <a routerLink="/alta-actor" class="nav-link">Alta Actor</a>
+        </li>
+      </ul>
+    </div>
+
+    @if (currentUser == null) {
+    <a routerLink="/login" class="btn btn-outline-primary">Iniciar sesión</a>
+    }
+  </header>
+
+  <main>
+    <router-outlet />
+  </main>
+</div>

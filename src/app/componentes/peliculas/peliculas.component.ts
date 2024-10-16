@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PeliculasComponent implements OnInit {
   peliculas: any[] = [];
+  pelicula: any;
 
   constructor(private _firestoreService: FirestoreService) {}
 
@@ -19,5 +20,9 @@ export class PeliculasComponent implements OnInit {
     this.peliculas = await this._firestoreService.getAllDocument<any>(
       'peliculas'
     );
+  }
+
+  seleccionarPelicula(pelicula: any): void {
+    this.pelicula = pelicula;
   }
 }
