@@ -1,0 +1,14 @@
+<div class="container">
+    <app-actor-list (getItemSelected)="onActorSelected($event)" />
+
+    <div class="d-flex justify-content-between p-5 pt-0 gap-4">
+        @if (actor) {
+            <app-actor-detail [actor]="actor" />
+            <app-country-detail [country$]="country$" />
+            <app-movie-actor [movieActor]="movieActor" />
+        } @else {
+            <p class="p-4 text-center border m-0 w-100">Seleccione un actor para mostrar los detalles.</p>
+        }
+    </div>
+</div>
+  

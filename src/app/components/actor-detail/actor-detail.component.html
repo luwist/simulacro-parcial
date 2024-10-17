@@ -1,0 +1,10 @@
+<div class="border p-4 w-100">
+    <p class="m-0 mb-3 fw-bold fs-5">Detalle del actor</p>
+    @if (actor) {
+        <p><span class="fw-medium">Nombre:</span> {{ actor.name }} {{ actor.surname }}</p>
+        <p><span class="fw-medium">Edad:</span> {{ actor.age }}</p>
+        <p><span class="fw-medium">Pais:</span> {{ actor.country }}</p>
+    } @else {
+        <p class="m-0">Seleccione un actor</p>
+    }
+</div>

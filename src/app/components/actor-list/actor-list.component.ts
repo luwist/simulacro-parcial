@@ -3,10 +3,10 @@ import { FirestoreService } from '../../services/firestore/firestore.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-movie-list',
+  selector: 'app-actor-list',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './movie-list.component.html',
+  templateUrl: './actor-list.component.html',
   styles: `
     :host {
       width: 100%;
@@ -17,8 +17,8 @@ import { CommonModule } from '@angular/common';
     }
   `,
 })
-export class MovieListComponent {
-  @Output() getMovieSelected = new EventEmitter();
+export class ActorListComponent {
+  @Output() getItemSelected = new EventEmitter();
   items: any[] = [];
 
   itemSelected: any = null;
@@ -26,12 +26,12 @@ export class MovieListComponent {
   constructor(private _firestoreService: FirestoreService) {}
 
   async ngOnInit() {
-    this.items = await this._firestoreService.getAllDocument<any>('movies');
+    this.items = await this._firestoreService.getAllDocument<any>('actors');
   }
 
   onItemSelected(movie: any): void {
     this.itemSelected = movie;
 
-    this.getMovieSelected.emit(movie);
+    this.getItemSelected.emit(movie);
   }
 }

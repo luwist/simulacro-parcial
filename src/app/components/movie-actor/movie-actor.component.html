@@ -1,0 +1,13 @@
+<div class="border p-4">
+    <p class="m-0 mb-3 fw-bold fs-5">Peliculas en donde actuo</p>
+
+    @if (movieActor.length > 0) {
+        <ul>
+            @for (item of movieActor; track $index) {
+                <li>{{ item.name }}</li>
+            }
+        </ul>
+    } @else {
+        <p class="m-0">Seleccione un actor</p>
+    }
+</div>

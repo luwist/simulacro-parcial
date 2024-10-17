@@ -1,0 +1,29 @@
+<div class="col-md-5 col-lg-4 order-md-last w-100">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-primary">Actores</span>
+    </h4>
+    <ul
+      class="list-group mb-3"
+      style="overflow-y: scroll; height: 500px;"
+    >
+      @for (item of items; track $index) {
+      <li
+        class="list-group-item d-flex align-items-center lh-sm"
+        style="cursor: pointer;"
+        (click)="onItemSelected(item)"
+        [ngClass]="itemSelected !== null && itemSelected.identity == item.identity ? 'selected' : ''"
+      >
+      <div>
+        <p class="m-0">{{ item.name }} {{ item.surname }}</p>
+        <p class="m-0">{{ item.age }}</p>
+      </div>
+      </li>
+    } @empty {
+        <li>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>

@@ -1,0 +1,27 @@
+<div class="col-md-5 col-lg-4 order-md-last w-100">
+    <h4 class="d-flex justify-content-between align-items-center mb-3">
+      <span class="text-primary">Paises</span>
+    </h4>
+    <ul
+      class="list-group mb-3"
+      style="overflow-y: scroll; height: 500px;"
+    >
+      @for (movie of movies$ | async; track $index) {
+      <li
+        class="list-group-item d-flex justify-content-between lh-sm"
+        style="cursor: pointer;"
+        (click)="onCountrySelected(movie)"
+        [ngClass]="countrySelected !== null && countrySelected.name.common == movie.name.common ? 'selected' : ''"
+      >
+        <img [src]="movie.flags.svg" alt="" style="width: 100px; height: auto" />
+        <span>{{ movie.name.common }}</span>
+      </li>
+    } @empty {
+        <li>
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>

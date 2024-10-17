@@ -1,13 +1,13 @@
 <div class="container p-5 pt-0">
   <div class="border rounded-3 p-3">
+    <p class="m-0 mb-3 fw-bold fs-5">Detalle de la pelicula</p>
     @if (movie) {
-    <ul>
-      <li>Nombre: {{ movie.nombre }}</li>
-      <li>Fecha de estreno: {{ movie.fechaEstreno }}</li>
-      <li>Tipo: {{ movie.tipo }}</li>
-      <li>Protagonista: {{ movie.protagonista }}</li>
-      <li>Cantidad de publico: {{ movie.cantidadPublico }}</li>
-    </ul>
+      <p><span class="fw-medium">Nombre:</span> {{ movie.name }}</p>
+      <p><span class="fw-medium">Fecha de estreno:</span> {{ movie.released.toDate() | date }}</p>
+      <p><span class="fw-medium">Actor:</span> {{ movie.actor }}</p>
+      <p><span class="fw-medium">Tipo:</span> {{ movie.genre }}</p>
+      <p><span class="fw-medium">Protagonista:</span> {{ movie.protagonist }}</p>
+      <p><span class="fw-medium">Cantidad de publico:</span> {{ movie.amountPublic }}</p>
     } @else {
     <p class="text-center m-0">
       No hay detalles para mostrar. Seleccione una pelicula

@@ -23,6 +23,18 @@ export const routes: Routes = [
             (m) => m.ActorRegisterComponent
           ),
       },
+      {
+        path: 'alta-pelicula',
+        loadComponent: () =>
+          import('./movie-register/movie-register.component').then(
+            (m) => m.MovieRegisterComponent
+          ),
+      },
+      {
+        path: 'actores',
+        loadComponent: () =>
+          import('./actors/actors.component').then((m) => m.ActorsComponent),
+      },
     ],
   },
 ];

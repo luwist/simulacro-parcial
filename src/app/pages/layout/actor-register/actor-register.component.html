@@ -1,112 +1,60 @@
-<div class="row g-5">
-  <div class="col-md-5 col-lg-4 order-md-last">
-    <h4 class="d-flex justify-content-between align-items-center mb-3">
-      <span class="text-primary">Paises</span>
-    </h4>
-    <ul
-      class="list-group mb-3"
-      style="overflow-y: scroll; height: 500px"
-      [ngClass]="isLoading ? 'loading' : 'notLoading'"
-    >
-      @for (pais of paises$ | async; track $index) {
-      <li
-        class="list-group-item d-flex justify-content-between lh-sm"
-        style="cursor: pointer"
-        (click)="onAgregarActor()"
-      >
-        <img [src]="pais.flags.svg" alt="" style="width: 100px; height: auto" />
-        <span>{{ pais.name.common }}</span>
-      </li>
-      }
-    </ul>
-  </div>
+<ng-template #toast>{{ errorText }}</ng-template>
+
+<div class="d-flex gap-4">
   <div class="col-md-7 col-lg-8">
     <h4 class="mb-3">Alta Actor</h4>
-    <form class="needs-validation" [formGroup]="form">
+    <form class="needs-validation" [formGroup]="form" (submit)="onRegister(toast)">
       <div class="row g-3">
-        <div class="col-sm-6">
-          <label class="form-label">Id</label>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Id"
-            formControlName="id"
-          />
-        </div>
-
         <div class="col-sm-6">
           <label class="form-label">Nombre</label>
           <input
             type="text"
             class="form-control"
             placeholder="Nombre"
-            formControlName="nombre"
+            formControlName="name"
           />
+          <app-input-error [control]="getControl('name')" />
         </div>
 
-        <div>
-          <label class="form-label">Fecha de estreno</label>
-          <div class="input-group">
-            <input
-              class="form-control"
-              placeholder="yyyy-mm-dd"
-              name="dp"
-              [(ngModel)]="model"
-              ngbDatepicker
-              #d="ngbDatepicker"
-            />
-            <button
-              class="btn btn-outline-secondary bi bi-calendar3"
-              (click)="d.toggle()"
-              type="button"
-            ></button>
-          </div>
-        </div>
-        <!-- <div class="col-12">
-          <label class="form-label">Fecha de estreno</label>
-          <input type="date" formControlName="fechaEstreno" />
-        </div> -->
-
-        <div class="col-12">
-          <label class="form-label">Cantidad de publico</label>
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Cantidad de publico"
-            formControlName="cantidadPublico"
-          />
-        </div>
-
-        <div class="col-12">
-          <label class="form-label">Protagonista</label>
+        <div class="col-sm-6">
+          <label class="form-label">Apellido</label>
           <input
             type="text"
             class="form-control"
-            placeholder="Protagonista"
-            formControlName="protagonista"
+            placeholder="Apellido"
+            formControlName="surname"
           />
+          <app-input-error [control]="getControl('surname')" />
         </div>
 
-        <div class="mb-3">
-          <label for="formFile" class="form-label">Foto de la pelicula</label>
+        <div class="col-sm-6">
+          <label class="form-label">Documento</label>
           <input
+            type="number"
             class="form-control"
-            type="file"
-            id="formFile"
-            (input)="onSubirImagen($event)"
+            placeholder="Documento"
+            formControlName="identity"
           />
+          <app-input-error [control]="getControl('identity')" />
         </div>
 
-        <div class="mb-3">
-          <label for="country" class="form-label">Tipo</label>
-          <select class="form-select" formControlName="tipo">
-            <option selected>Elige el tipo de pelicula</option>
-            @for (tipo of tipos; track $index) {
-            <option>{{ tipo }}</option>
-            }
-          </select>
+        <div class="col-sm-6">
+          <label class="form-label">Edad</label>
+          <input
+            type="number"
+            class="form-control"
+            placeholder="Edad"
+            formControlName="age"
+          />
+          <app-input-error [control]="getControl('age')" />
         </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="(form.statusChanges | async) !== 'VALID'">{{ buttonText }}</button>
       </div>
     </form>
   </div>
+
+  <app-country-table (selectCountry)="onCountrySelected($event)" />
 </div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>

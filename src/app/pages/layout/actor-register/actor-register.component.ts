@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, TemplateRef } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,15 +7,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { FirestoreService } from '../../../services/firestore/firestore.service';
-import { UploadService } from '../../../services/upload/upload.service';
 import { CommonModule } from '@angular/common';
 import {
-  NgbCalendar,
   NgbDatepickerModule,
-  NgbDateStruct,
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { InputErrorComponent } from '../../../components';
+import { CountryTableComponent } from '../../../components/country-table/country-table.component';
+import { ToastService } from '../../../services/toast/toast.service';
+import { ToastsContainer } from '../../../services/toast/toast-container.service';
 
 @Component({
   selector: 'app-actor-register',
@@ -25,57 +26,75 @@ import {
     ReactiveFormsModule,
     NgbDatepickerModule,
     FormsModule,
+    InputErrorComponent,
+    CountryTableComponent,
+
+    NgbTooltipModule,
+    ToastsContainer,
   ],
   templateUrl: './actor-register.component.html',
   styleUrl: './actor-register.component.css',
 })
 export class ActorRegisterComponent {
-  paises$!: Observable<any>;
-  isLoading = true;
-
-  tipos = ['terror', 'comedias', 'amor', 'otros'];
-
-  model: any;
+  errorText!: string;
+  buttonText: string = 'Agregar actor';
 
   form = new FormGroup({
-    id: new FormControl('', Validators.required),
-    nombre: new FormControl('', Validators.required),
-    fechaEstreno: new FormControl('', Validators.required),
-    protagonista: new FormControl('', Validators.required),
-    tipo: new FormControl('', Validators.required),
-    cantidadPublico: new FormControl('', Validators.required),
-    fotoPelicula: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    surname: new FormControl('', Validators.required),
+    identity: new FormControl('', Validators.required),
+    age: new FormControl('', Validators.required),
+    country: new FormControl('', Validators.required),
   });
 
   constructor(
-    private _httpClient: HttpClient,
     private _firestoreService: FirestoreService,
-    private _uploadService: UploadService
+    private _toastService: ToastService
   ) {}
 
-  ngOnInit(): void {
-    this.paises$ = this._httpClient.get(
-      'https://restcountries.com/v3.1/region/South%20America'
-    );
+  getControl(name: string): FormControl {
+    return this.form.get(name) as FormControl;
   }
 
-  async onSubirImagen(e: Event) {
-    const inputElement = e.target as HTMLInputElement;
+  onCountrySelected(pais: any): void {
+    this.form.patchValue({
+      country: pais.name.common,
+    });
+  }
 
-    if (inputElement.files && inputElement.files[0]) {
-      const file = inputElement.files[0];
+  async onRegister(template: TemplateRef<any>) {
+    try {
+      const data = this.form.getRawValue();
 
-      const imageUrl = await this._uploadService.upload(file);
+      this.form.markAsPending();
+      this.buttonText = 'Cargando...';
 
-      this.isLoading = false;
-
-      this.form.patchValue({
-        fotoPelicula: imageUrl,
+      await this._firestoreService.addDocument('actors', {
+        name: `${data.name} ${data.surname}`,
+        identity: data.identity,
+        age: data.age,
+        country: data.country,
       });
-    }
-  }
 
-  async onAgregarActor() {
-    await this._firestoreService.addDocument('peliculas', this.form.value);
+      this.form.reset();
+
+      this.errorText = 'Se ha dado de alta correctamente';
+
+      this._toastService.show({
+        template,
+        classname: 'bg-success text-light',
+        delay: 2000,
+      });
+    } catch (error) {
+      this.errorText = 'Ha ocurrio un error. Intentelo de nuevo.';
+
+      this._toastService.show({
+        template,
+        classname: 'bg-danger text-light',
+        delay: 2000,
+      });
+    } finally {
+      this.buttonText = 'Agregar actor';
+    }
   }
 }

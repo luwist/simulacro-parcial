@@ -1,0 +1,24 @@
+<div class="container-fluid p-5">
+    <h1 class="fs-2 fw-bold mb-4">Listado de actores</h1>
+  
+    <ul class="list-group mb-3">
+      @for (item of items; track $index) {
+      <li
+        class="list-group-item d-flex align-items-center gap-3 p-3"
+        style="cursor: pointer"
+        (click)="onItemSelected(item)"
+        [ngClass]="itemSelected !== null && itemSelected.identity == item.identity ? 'selected' : ''"
+      >
+        <div>
+          <p class="my-0 fw-medium">{{ item.name }} {{ item.surname }}</p>
+          <p class="my-0 text-capitalize">{{ item.age }} años</p>
+        </div>
+      </li>
+      } @empty {
+      <li class="list-group-item d-flex justify-content-between lh-sm p-3">
+        No hay actores para mostrar
+      </li>
+      }
+    </ul>
+  </div>
+  

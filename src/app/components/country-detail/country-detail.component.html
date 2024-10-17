@@ -1,0 +1,11 @@
+<div class="border p-4">
+    <p class="m-0 mb-3 fw-bold fs-5">Detalle del pais</p>
+
+    @if (country$ | async; as country) {
+        <img [src]="country[0].flags.svg" alt="" class="w-100 h-auto">
+        <p><span class="fw-medium">Nombre:</span> {{ country[0].name.common }}</p>
+        <p><span class="fw-medium">Capital:</span> {{ country[0].capital[0] }}</p>
+    } @else {
+        <p class="m-0">Seleccione un actor</p>
+    }
+</div>

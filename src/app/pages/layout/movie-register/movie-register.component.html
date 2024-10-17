@@ -1,0 +1,87 @@
+<ng-template #toast>{{ errorText }}</ng-template>
+
+<div class="d-flex gap-4">
+    <div class="col-md-7 col-lg-8">
+      <h4 class="mb-3">Alta pelicula</h4>
+      <form class="needs-validation" [formGroup]="form" (submit)="onRegister(toast)">
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <label class="form-label">Id</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Id"
+              formControlName="id"
+            />
+            <app-input-error [control]="getControl('id')" />
+          </div>
+  
+          <div class="col-sm-6">
+            <label class="form-label">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nombre"
+              formControlName="name"
+            />
+            <app-input-error [control]="getControl('name')" />
+          </div>
+  
+          <div>
+            <label class="d-block form-label">Fecha de estreno</label>
+            <ngb-datepicker (dateSelect)="onDateSelect($event)"></ngb-datepicker>
+          </div>
+  
+          <div class="col-12">
+            <label class="form-label">Cantidad de publico</label>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="Cantidad de publico"
+              formControlName="amountPublic"
+            />
+            <app-input-error [control]="getControl('amountPublic')" />
+          </div>
+  
+          <div class="col-12">
+            <label class="form-label">Protagonista</label>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Protagonista"
+              formControlName="protagonist"
+            />
+            <app-input-error [control]="getControl('protagonist')" />
+          </div>
+  
+          <div class="mb-3">
+            <label for="formFile" class="form-label">Foto de la pelicula</label>
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              (input)="onImageSelected($event)"
+            />
+          </div>
+  
+          <div class="mb-3">
+            <label for="country" class="form-label">Tipo</label>
+            <select class="form-select" formControlName="genre">
+              <option selected>Elige el tipo de pelicula</option>
+              @for (tipo of tipos; track $index) {
+              <option>{{ tipo }}</option>
+              }
+            </select>
+            <app-input-error [control]="getControl('genre')" />
+          </div>
+
+          <button type="submit" class="btn btn-primary" [disabled]="(form.statusChanges | async) !== 'VALID'">{{ buttonText }}</button>
+        </div>
+      </form>
+    </div>
+
+    <app-actor-table (selectItem)="onItemSelected($event)" />
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
+  
